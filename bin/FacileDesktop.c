@@ -1,5 +1,6 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
+#include "Settings.h"
 
 //Структуры и данные
 struct Elements{
@@ -67,9 +68,11 @@ void click_buttons(GtkButton *button, gpointer data){
     gtk_widget_destroy (dialog);
 }
 
+
+
 //Добавление сигналов
 void add_signals(void){
     g_signal_connect(G_OBJECT(elements.doneTask), "clicked", G_CALLBACK(click_buttons), NULL);
     g_signal_connect(G_OBJECT(elements.addTask), "clicked", G_CALLBACK(click_buttons), NULL);
-    g_signal_connect(G_OBJECT(elements.settings), "clicked", G_CALLBACK(click_buttons), NULL);
+    g_signal_connect(G_OBJECT(elements.settings), "clicked", G_CALLBACK(create_window_settings), NULL);
 }

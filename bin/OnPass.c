@@ -10,6 +10,10 @@ struct OnPassElems{
     GtkEntry *password;
 } onPassElems;
 
+//Прототипы функций
+void click_done_task(GtkButton *button, gpointer data);
+void click_cancel(GtkButton *button, gpointer data);
+
 //Создание окна установки пароля
 void create_window_onpass(GtkSwitch *switchPass){
     GtkBuilder *builder = NULL;

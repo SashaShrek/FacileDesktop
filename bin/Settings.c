@@ -8,6 +8,7 @@ struct SettingsElements{
     GtkSwitch *switchSync;
 } settingsElements;
 
+//Прототипы функций
 void switch_usePass(GtkSwitch *switchPass, gpointer data);
 void switch_useSync(GtkSwitch *switchSync, gpointer data);
 

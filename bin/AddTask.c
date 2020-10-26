@@ -9,6 +9,9 @@ struct AddTaskElements{
     GtkEntry *textTime;
 } addTaskElements;
 
+//Прототипы функций
+void click_addTask(GtkButton *button, gpointer data);
+
 //Создание окна добавления задач
 void create_window_addTask(GtkButton *button, gpointer data){
     GtkWidget *window = NULL;

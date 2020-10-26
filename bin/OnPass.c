@@ -2,6 +2,7 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 
+//Хранение данных
 struct OnPassElems{
     GtkWidget *window;
     GtkButton *donePass;
@@ -9,6 +10,7 @@ struct OnPassElems{
     GtkEntry *password;
 } onPassElems;
 
+//Создание окна установки пароля
 void create_window_onpass(GtkSwitch *switchPass){
     GtkBuilder *builder = NULL;
     GError *error = NULL;
@@ -33,6 +35,7 @@ void create_window_onpass(GtkSwitch *switchPass){
     gtk_widget_show(onPassElems.window);
 }
 
+//Нажатие кнопки Подтвердить
 void click_done_task(GtkButton *button, gpointer data){
     guint16 lengthTextPass = gtk_entry_get_text_length(onPassElems.password);
     if(lengthTextPass < 4){
@@ -47,12 +50,12 @@ void click_done_task(GtkButton *button, gpointer data){
         return ;
     }
     const gchar *textPass = gtk_entry_get_text(onPassElems.password);
+    //
     gtk_widget_destroy(GTK_WIDGET(onPassElems.window));
 }
 
+//Нажатие кнопки отмена
 void click_cancel(GtkButton *button, gpointer data){
-    guint16 lengthTextPass = gtk_entry_get_text_length(onPassElems.password);
     gtk_switch_set_state(GTK_SWITCH(data), FALSE);
     gtk_widget_destroy(GTK_WIDGET(onPassElems.window));
 }
-//donePass, password

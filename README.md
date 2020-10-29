@@ -8,8 +8,10 @@
 * [Gtk](https://www.gtk.org/)
 * [Glade (.ui)](https://glade.gnome.org/)
 
-## Сборка исходников
-```console
-sh build_linux.sh
-```
-Исполняемый файл появится в папке out
+## Установка
+* Скачать скрипт установки с помощью wget. `wget https://raw.githubusercontent.com/SsSha256/FacileDesktop/master/install_linux.sh`
+* Для полного удаления скачать файл remove_linux.sh. `wget https://raw.githubusercontent.com/SsSha256/FacileDesktop/master/remove_linux.sh`
+
+После установки, наберите в консоли: FacileDesktop (/usr/local/bin должен находиться в $PATH).
+
+**Если что-то перестало работать, переустановка всё поправит**

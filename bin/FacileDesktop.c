@@ -35,9 +35,9 @@ static GtkWidget* create_window(void){
     GError *error = NULL;
 
     builder = gtk_builder_new();
-    if(!gtk_builder_add_from_file(builder, "MainGUI.ui", &error)){
-        g_critical("Невозможно загрузить файл: %s", error->message);
-        g_error_free(error);
+    if(!gtk_builder_add_from_file(builder, "/usr/local/bin/MainGUI.ui", &error)){
+      g_critical("Невозможно загрузить файл: %s", error->message);
+      g_error_free(error);
     }
 
     gtk_builder_connect_signals(builder, NULL);
@@ -50,7 +50,7 @@ static GtkWidget* create_window(void){
     if(!window || !elements.doneTask || !elements.addTask || !elements.settings){
         g_critical("Не могу получить объект окна или кнопки");
     }
-    
+
     add_signals();//Добавление сигналов
 
     g_object_unref(builder);

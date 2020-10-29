@@ -3,10 +3,7 @@
 #include "hOnSync.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
-#include "hBook.h"
-#include <openssl/md5.h>
-
-#define PATH_CONF "Conf/pass.conf"
+#include <string.h>
 
 struct SettingsElements{
     GtkSwitch *switchPass;
@@ -24,7 +21,7 @@ void create_window_settings(GtkButton *button, gpointer data){
     GtkBuilder *builder = NULL;
 
     builder = gtk_builder_new();
-    if(!gtk_builder_add_from_file(builder, "SettingsGUI.ui", &error)){
+    if(!gtk_builder_add_from_file(builder, "/usr/local/bin/SettingsGUI.ui", &error)){
         g_critical("Невозможно загрузить файл: %s", error->message);
         g_error_free(error);
     }
@@ -41,19 +38,34 @@ void create_window_settings(GtkButton *button, gpointer data){
 
     g_object_unref(builder);
 
-    FILE *file = fopen(PATH_CONF, "r");
+    const gchar *path = g_get_home_dir();
+    gchar *nameFile = "/Conf/pass.conf";
+    size_t size_path = strlen(path);
+    size_t size_nameFile = strlen(nameFile);
+    gchar *all = (gchar*)calloc(size_path + size_nameFile, sizeof(gchar));
+    strncpy(all, path, size_path);
+    strncpy(all + size_path, nameFile, size_nameFile);
+    FILE *file = fopen(all, "r");
     if(file != NULL){
-      gtk_switch_set_state(settingsElements.switchPass, get_target(file, "pass"));
+      gtk_switch_set_state(settingsElements.switchPass, 1);
       fclose(file);
     }
-
+    free(all);
     gtk_widget_show(window);
 }
 
 //Открытие окна установки пароля
 void switch_usePass(GtkSwitch *switchPass, gpointer data){
     gboolean onOrOff = gtk_switch_get_state(switchPass);
-    FILE *fp = fopen(PATH_CONF, "r");
+
+    const gchar *path = g_get_home_dir();
+    gchar *nameFile = "/Conf/pass.conf";
+    size_t size_path = strlen(path);
+    size_t size_nameFile = strlen(nameFile);
+    gchar *outcome = (gchar*)calloc(size_path + size_nameFile, sizeof(gchar));
+    strncpy(outcome, path, size_path);
+    strncpy(outcome + size_path, nameFile, size_nameFile);
+    FILE *fp = fopen(outcome, "r");
     if(onOrOff == TRUE){
         if(fp == NULL){
           create_window_onpass(switchPass);
@@ -61,12 +73,14 @@ void switch_usePass(GtkSwitch *switchPass, gpointer data){
     }else{
       if(fp != NULL){
         fclose(fp);
-        if(remove(PATH_CONF)){
+        if(remove(outcome)){
+          free(outcome);
           g_critical("Невозможно удалить файл");
           return ;
         }
       }
     }
+    free(outcome);
 }
 
 //Окно синхронизации

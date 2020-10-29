@@ -17,7 +17,7 @@ void done_onsync(GtkButton *button, gpointer data);
 void create_window_onsync(GtkSwitch *switchSync){
     GError *error = NULL;
     GtkBuilder *builder = NULL;
-    
+
     builder = gtk_builder_new();
     if(!gtk_builder_add_from_file(builder, "OnSyncGUI.ui", &error)){
         g_critical("Невозможно загрузить файл OnSyncGUI: %s", error->message);

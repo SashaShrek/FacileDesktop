@@ -2,8 +2,6 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 
-#define PATH_CONF "Conf/pass.conf"
-
 //Хранение данных
 struct OnPassElems{
     GtkWidget *window;
@@ -15,7 +13,6 @@ struct OnPassElems{
 //Прототипы функций
 void click_done_task(GtkButton *button, gpointer data);
 void click_cancel(GtkButton *button, gpointer data);
-gchar* concat(gchar *str1, const gchar *str2);
 
 //Создание окна установки пароля
 void create_window_onpass(GtkSwitch *switchPass){
@@ -23,7 +20,7 @@ void create_window_onpass(GtkSwitch *switchPass){
     GError *error = NULL;
 
     builder = gtk_builder_new();
-    if(!gtk_builder_add_from_file(builder, "OnPassGUI.ui", &error)){
+    if(!gtk_builder_add_from_file(builder, "/usr/local/bin/OnPassGUI.ui", &error)){
         g_critical("Невозможно загрузить файл: %s", error->message);
         g_error_free(error);
     }
@@ -57,15 +54,20 @@ void click_done_task(GtkButton *button, gpointer data){
         return ;
     }
     const gchar *textPass = gtk_entry_get_text(onPassElems.password);
-    FILE *fp = fopen(PATH_CONF, "a");
+    const gchar *path = g_get_home_dir();
+    gchar *nameFile = "/Conf/pass.conf";
+    gchar *all = malloc(strlen(path) + strlen(nameFile) + 1);
+    memcpy(all, path, strlen(path));
+    memcpy(all + strlen(path), nameFile, strlen(nameFile));
+    FILE *fp = fopen(all, "a");
     if(fp != NULL){
       gchar *str = "pass:";
-      gchar *s = concat(str, textPass);
-      fputs(s, fp);
+      fputs(textPass, fp);
       fclose(fp);
-      *s = 0;
-      free(s);
+    }else{
+      g_critical("Не могу создать файл!");
     }
+    free(all);
     gtk_widget_destroy(GTK_WIDGET(onPassElems.window));
 }
 
@@ -73,14 +75,4 @@ void click_done_task(GtkButton *button, gpointer data){
 void click_cancel(GtkButton *button, gpointer data){
     gtk_switch_set_state(GTK_SWITCH(data), FALSE);
     gtk_widget_destroy(GTK_WIDGET(onPassElems.window));
-}
-
-//Объединение строк
-gchar* concat(gchar *str1, const gchar *str2){
-  int size_1 = strlen(str1);
-  int size_2 = strlen(str2);
-  gchar *all = malloc(sizeof(size_1 + size_2 + 1));
-  memcpy(all, str1, size_1);
-  memcpy(all + size_1, str2, size_2);
-  return all;
 }

@@ -1,5 +1,6 @@
 #include "hAddTask.h"
 #include <gtk/gtk.h>
+#include "hBook.h"
 
 //Структуры и данные
 struct AddTaskElements{
@@ -19,7 +20,7 @@ void create_window_addTask(GtkButton *button, gpointer data){
     GtkBuilder *builder = NULL;
 
     builder = gtk_builder_new();
-    if(!gtk_builder_add_from_file(builder, "AddTaskGUI.ui", &error)){
+    if(!gtk_builder_add_from_file(builder, "/usr/local/bin/AddTaskGUI.ui", &error)){
         g_critical("Невозможно загрузить файл: %s", error->message);
         g_error_free(error);
     }
@@ -42,12 +43,5 @@ void create_window_addTask(GtkButton *button, gpointer data){
 
 //Обработчик сигнала
 void click_addTask(GtkButton *button, gpointer data){
-    GtkDialogFlags flags = GTK_DIALOG_DESTROY_WITH_PARENT;
-    GtkWidget *dialog = gtk_message_dialog_new (NULL,
-                                    flags,
-                                    GTK_MESSAGE_ERROR,
-                                    GTK_BUTTONS_CLOSE,
-                                    "Привет! Скоро здесь будет функция");
-    gtk_dialog_run (GTK_DIALOG (dialog));
-    gtk_widget_destroy (dialog);
+    show_message("Привет! Скоро здесь будет функция");
 }

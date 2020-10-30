@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include "hSettings.h"
 #include "hAddTask.h"
+#include <string.h>
+#include "hPass.h"
+#include "hBook.h"
+#include <stdlib.h>
 
 //Структуры и данные
 struct Elements{
@@ -24,6 +28,15 @@ int main(int argc, char *argv[]){
     window = create_window();
     g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
     gtk_widget_show(window);
+
+    gchar *all = get_path_file("/..Conf/pass.conf");
+    FILE *fp = fopen(all, "r");
+    if(fp != NULL){
+      fclose(fp);
+      create_window_pass();
+    }
+    free(all);
+
     gtk_main();
     return 0;
 }
@@ -54,19 +67,13 @@ static GtkWidget* create_window(void){
     add_signals();//Добавление сигналов
 
     g_object_unref(builder);
+
     return window;
 }
 
 //Обработчик сигнала
 void click_buttons(GtkButton *button, gpointer data){
-    GtkDialogFlags flags = GTK_DIALOG_DESTROY_WITH_PARENT;
-    GtkWidget *dialog = gtk_message_dialog_new (NULL,
-                                    flags,
-                                    GTK_MESSAGE_ERROR,
-                                    GTK_BUTTONS_CLOSE,
-                                    "Привет! Скоро здесь будет функция");
-    gtk_dialog_run (GTK_DIALOG (dialog));
-    gtk_widget_destroy (dialog);
+    show_message("Привет! Скоро здесь будет функция");
 }
 
 

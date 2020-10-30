@@ -4,6 +4,8 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include "hBook.h"
 
 struct SettingsElements{
     GtkSwitch *switchPass;
@@ -38,19 +40,21 @@ void create_window_settings(GtkButton *button, gpointer data){
 
     g_object_unref(builder);
 
-    const gchar *path = g_get_home_dir();
-    gchar *nameFile = "/Conf/pass.conf";
-    size_t size_path = strlen(path);
-    size_t size_nameFile = strlen(nameFile);
-    gchar *all = (gchar*)calloc(size_path + size_nameFile, sizeof(gchar));
-    strncpy(all, path, size_path);
-    strncpy(all + size_path, nameFile, size_nameFile);
+    gchar *all = get_path_file("/..Conf/pass.conf");
     FILE *file = fopen(all, "r");
     if(file != NULL){
       gtk_switch_set_state(settingsElements.switchPass, 1);
       fclose(file);
     }
     free(all);
+    all = get_path_file("/..Conf/sync.conf");
+    FILE *fp = fopen(all, "r");
+    if(fp != NULL){
+      gtk_switch_set_state(settingsElements.switchSync, 1);
+      fclose(fp);
+    }
+    free(all);
+
     gtk_widget_show(window);
 }
 
@@ -58,13 +62,7 @@ void create_window_settings(GtkButton *button, gpointer data){
 void switch_usePass(GtkSwitch *switchPass, gpointer data){
     gboolean onOrOff = gtk_switch_get_state(switchPass);
 
-    const gchar *path = g_get_home_dir();
-    gchar *nameFile = "/Conf/pass.conf";
-    size_t size_path = strlen(path);
-    size_t size_nameFile = strlen(nameFile);
-    gchar *outcome = (gchar*)calloc(size_path + size_nameFile, sizeof(gchar));
-    strncpy(outcome, path, size_path);
-    strncpy(outcome + size_path, nameFile, size_nameFile);
+    gchar *outcome = get_path_file("/..Conf/pass.conf");
     FILE *fp = fopen(outcome, "r");
     if(onOrOff == TRUE){
         if(fp == NULL){
@@ -74,9 +72,7 @@ void switch_usePass(GtkSwitch *switchPass, gpointer data){
       if(fp != NULL){
         fclose(fp);
         if(remove(outcome)){
-          free(outcome);
           g_critical("Невозможно удалить файл");
-          return ;
         }
       }
     }
@@ -86,7 +82,20 @@ void switch_usePass(GtkSwitch *switchPass, gpointer data){
 //Окно синхронизации
 void switch_useSync(GtkSwitch *switchSync, gpointer data){
     gboolean onOrOff = gtk_switch_get_state(switchSync);
+
+    gchar *outcome = get_path_file("/..Conf/sync.conf");
+    FILE *fp = fopen(outcome, "r");
     if(onOrOff == TRUE){
-        create_window_onsync(switchSync);
+        if(fp == NULL){
+          create_window_onsync(switchSync);
+        }
+    }else{
+      if(fp != NULL){
+        fclose(fp);
+        if(remove(outcome)){
+          g_critical("Невозможно удалить файл");
+        }
+      }
     }
+    free(outcome);
 }

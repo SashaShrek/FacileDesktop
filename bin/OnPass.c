@@ -1,6 +1,8 @@
 #include "hOnPass.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include "hBook.h"
 
 //Хранение данных
 struct OnPassElems{
@@ -43,23 +45,16 @@ void create_window_onpass(GtkSwitch *switchPass){
 void click_done_task(GtkButton *button, gpointer data){
     guint16 lengthTextPass = gtk_entry_get_text_length(onPassElems.password);
     if(lengthTextPass < 4){
-        GtkDialogFlags flags = GTK_DIALOG_DESTROY_WITH_PARENT;
-        GtkWidget *dialog = gtk_message_dialog_new (NULL,
-                                        flags,
-                                        GTK_MESSAGE_ERROR,
-                                        GTK_BUTTONS_CLOSE,
-                                        "Пароль должен быть не менее 4 символов в длину!");
-        gtk_dialog_run (GTK_DIALOG (dialog));
-        gtk_widget_destroy (dialog);
+        show_message("Пароль должен быть не менее 4 символов в длину!");
         return ;
     }
     const gchar *textPass = gtk_entry_get_text(onPassElems.password);
     const gchar *path = g_get_home_dir();
-    gchar *nameFile = "/Conf/pass.conf";
+    gchar *nameFile = "/..Conf/pass.conf";
     gchar *all = malloc(strlen(path) + strlen(nameFile) + 1);
     memcpy(all, path, strlen(path));
     memcpy(all + strlen(path), nameFile, strlen(nameFile));
-    FILE *fp = fopen(all, "a");
+    FILE *fp = fopen(all, "w");
     if(fp != NULL){
       gchar *str = "pass:";
       fputs(textPass, fp);

@@ -1,5 +1,7 @@
 #include <gtk/gtk.h>
 #include "hOnSync.h"
+#include <stdlib.h>
+#include "hBook.h"
 
 struct OnSyncElements{
     GtkWidget *window;
@@ -19,7 +21,7 @@ void create_window_onsync(GtkSwitch *switchSync){
     GtkBuilder *builder = NULL;
 
     builder = gtk_builder_new();
-    if(!gtk_builder_add_from_file(builder, "OnSyncGUI.ui", &error)){
+    if(!gtk_builder_add_from_file(builder, "/usr/local/bin/OnSyncGUI.ui", &error)){
         g_critical("Невозможно загрузить файл OnSyncGUI: %s", error->message);
         g_error_free(error);
     }
@@ -51,18 +53,25 @@ void done_onsync(GtkButton *button, gpointer data){
     guint16 lengthFacileId = gtk_entry_get_text_length(onSyncElems.facileID);
     guint16 lengthFacilePass = gtk_entry_get_text_length(onSyncElems.facilePass);
     if(lengthFacileId < 1 || lengthFacilePass < 4){
-        GtkDialogFlags flags = GTK_DIALOG_DESTROY_WITH_PARENT;
-        GtkWidget *dialog = gtk_message_dialog_new (NULL,
-                                        flags,
-                                        GTK_MESSAGE_ERROR,
-                                        GTK_BUTTONS_CLOSE,
-                                        "Слишком короткие данные!");
-        gtk_dialog_run (GTK_DIALOG (dialog));
-        gtk_widget_destroy (dialog);
+        show_message("Слишком короткие данные!");
         return ;
     }
     const gchar *textFacileID = gtk_entry_get_text(onSyncElems.facileID);
     const gchar *textFacilePass = gtk_entry_get_text(onSyncElems.facilePass);
-    //
+
+    gchar *all = get_path_file("/..Conf/sync.conf");
+    FILE *fp = fopen(all, "w");
+    if(fp != NULL){
+      size_t sizeTextFacileID = strlen(textFacileID);
+      size_t sizeTextFacilePass = strlen(textFacilePass);
+      gchar *newTextFacileID = (gchar*)calloc(sizeTextFacileID + sizeTextFacilePass + 1, sizeof(gchar));
+      strncpy(newTextFacileID, textFacileID, sizeTextFacileID);
+      strncpy(newTextFacileID + sizeTextFacileID, "\n", 1);
+      strncpy(newTextFacileID + sizeTextFacileID + 1, textFacilePass, sizeTextFacilePass);
+      fputs(newTextFacileID, fp);
+      free(newTextFacileID);
+      fclose(fp);
+    }
+    free(all);
     gtk_widget_destroy(GTK_WIDGET(onSyncElems.window));
 }

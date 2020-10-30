@@ -1,5 +1,5 @@
 TARGET = FacileDesktop
-SRC = bin/FacileDesktop.c bin/AddTask.c bin/OnPass.c bin/OnSync.c bin/Settings.c
+SRC = bin/FacileDesktop.c bin/AddTask.c bin/OnPass.c bin/OnSync.c bin/Settings.c bin/Pass.c bin/Book.c
 #out/MainGUI.ui out/SettingsGUI.ui out/AddTaskGUI.ui out/OnPassGUI.ui out/OnSyncGUI.ui
 SRCCLN = out/$(TARGET)
 PREFIX = /usr/local/bin
@@ -21,6 +21,7 @@ install:
 	cp ui/AddTaskGUI.ui $(PREFIX)/AddTaskGUI.ui
 	cp ui/OnPassGUI.ui $(PREFIX)/OnPassGUI.ui
 	cp ui/OnSyncGUI.ui $(PREFIX)/OnSyncGUI.ui
+	cp ui/PassGUI.ui $(PREFIX)/PassGUI.ui
 	cp -r out/Icon $(PREFIX)/Icon
 	install out/$(TARGET) $(PREFIX)
 

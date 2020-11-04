@@ -1,5 +1,5 @@
 #!/bin/bash
-wget https://github.com/SsSha256/FacileDesktop/releases/download/v.0.1/FDtar.tar.gz2
+wget https://github.com/SsSha256/FacileDesktop/releases/download/v.0.2/FDtar.tar.gz2
 tar -xvf FDtar.tar.gz2
 cd FDTar
 make

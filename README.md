@@ -11,8 +11,7 @@
 ## Установка и удаление
 * Скачать скрипт установки с помощью wget. `wget https://raw.githubusercontent.com/SsSha256/FacileDesktop/master/install_linux.sh`
 * Запустить скрипт: `sh install_linux.sh`. **Данный файл не помещать в папку FDTar!**
-* Для полного удаления скачать скрипт remove_linux.sh. `wget https://raw.githubusercontent.com/SsSha256/FacileDesktop/master/remove_linux.sh`
-* Поместить(желательно) скрипт в папку FDTar(если вы её до этого не удалили)
+* Для полного удаления скачать скрипт remove_linux.sh. По умолчанию он скачивается при запуске скрипта установки(install_linux.sh). `wget https://raw.githubusercontent.com/SsSha256/FacileDesktop/master/remove_linux.sh`
 * Запустить скрипт: `sh remove_linux.sh`
 
 После установки, наберите в консоли: FacileDesktop (/usr/local/bin должен находиться в $PATH).

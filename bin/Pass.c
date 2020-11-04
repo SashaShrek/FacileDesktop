@@ -38,6 +38,7 @@ void create_window_pass(void){
   gtk_widget_show(passElems.window);
 }
 
+//Подтверждение пароля
 void click_done(GtkButton *button, gpointer data){
   const gchar *textPass = gtk_entry_get_text(passElems.password);
 
@@ -46,7 +47,13 @@ void click_done(GtkButton *button, gpointer data){
   if(fp != NULL){
     gchar *password = (gchar*)calloc(4, sizeof(gchar));
     fscanf(fp, "%s", password);
-    if(!strcmp(textPass, password)){
+    int str = 0, i = 0, max = strlen(textPass);
+    for(i; i < max; i++){
+      str += (unsigned)textPass[i];
+    }
+    int intPassword = atoi(password);
+    //!strcmp(textPass, password)
+    if(intPassword == str){
       gtk_widget_destroy(passElems.window);
     }else{
       gtk_entry_set_text(passElems.password, "");
@@ -58,6 +65,7 @@ void click_done(GtkButton *button, gpointer data){
   free(all);
 }
 
+//Отмена ввода пароля
 void click_exit(GtkButton *button, gpointer data){
   gtk_main_quit();
 }

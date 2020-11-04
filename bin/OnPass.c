@@ -56,8 +56,13 @@ void click_done_task(GtkButton *button, gpointer data){
     memcpy(all + strlen(path), nameFile, strlen(nameFile));
     FILE *fp = fopen(all, "w");
     if(fp != NULL){
-      gchar *str = "pass:";
-      fputs(textPass, fp);
+      int a = 0, i = 0, max = strlen(textPass);
+      for(i; i < max; i++){
+        a += (unsigned)textPass[i];
+      }
+      char *str;
+      sprintf(str, "%d", a);
+      fputs(str, fp);
       fclose(fp);
     }else{
       g_critical("Не могу создать файл!");

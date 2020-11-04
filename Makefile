@@ -16,12 +16,7 @@ clean:
 
 install:
 	cp out/$(TARGET) $(PREFIX)/$(TARGET)
-	cp ui/MainGUI.ui $(PREFIX)/MainGUI.ui
-	cp ui/SettingsGUI.ui $(PREFIX)/SettingsGUI.ui
-	cp ui/AddTaskGUI.ui $(PREFIX)/AddTaskGUI.ui
-	cp ui/OnPassGUI.ui $(PREFIX)/OnPassGUI.ui
-	cp ui/OnSyncGUI.ui $(PREFIX)/OnSyncGUI.ui
-	cp ui/PassGUI.ui $(PREFIX)/PassGUI.ui
+	cp ui/*.ui $(PREFIX)/
 	cp -r out/Icon $(PREFIX)/Icon
 	install out/$(TARGET) $(PREFIX)
 

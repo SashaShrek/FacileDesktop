@@ -56,9 +56,10 @@ void click_done_task(GtkButton *button, gpointer data){
     memcpy(all + strlen(path), nameFile, strlen(nameFile));
     FILE *fp = fopen(all, "w");
     if(fp != NULL){
-      int a = 0, i = 0, max = strlen(textPass);
+      int a = 0;
+      short i = 0, max = strlen(textPass);
       for(i; i < max; i++){
-        a += (unsigned)textPass[i];
+        a += textPass[i] << 3;
       }
       char *str;
       sprintf(str, "%d", a);

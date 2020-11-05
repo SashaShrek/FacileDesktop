@@ -4,22 +4,20 @@ SRC = bin/FacileDesktop.c bin/AddTask.c bin/OnPass.c bin/OnSync.c bin/Settings.c
 SRCCLN = out/$(TARGET)
 PREFIX = /usr/local/bin
 
-.PHONY: all clean install uninstall
+.PHONY: all install uninstall
 
 all: $(TARGET)
 
 $(TARGET): $(SRC)
 	gcc $(SRC) -o out/$(TARGET) `pkg-config --cflags --libs gtk+-3.0`
 
-clean:
-	rm -rf $(SRCCLN)
-
 install:
 	cp out/$(TARGET) $(PREFIX)/$(TARGET)
 	cp ui/*.ui $(PREFIX)/
 	cp -r out/Icon $(PREFIX)/Icon
+	cp Makefile $(PREFIX)/
 	install out/$(TARGET) $(PREFIX)
 
 
 uninstall:
-	rm -rf $(PREFIX)/*.ui $(PREFIX)/$(TARGET) $(PREFIX)/Icon
+	rm -rf $(PREFIX)/*.ui $(PREFIX)/$(TARGET) $(PREFIX)/Icon $(PREFIX)/Makefile

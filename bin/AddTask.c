@@ -26,7 +26,7 @@ struct Elements{
 //Прототипы функций
 void click_addTask(GtkButton *button, gpointer data);
 void load_date(void);
-void get_time_today(int *iYear, int *iMonth, int *iDay);
+void get_time_today(int *iYear, short *iMonth, short *iDay);
 
 //Создание окна добавления задач
 void create_window_addTask(GtkButton *button, gpointer data){
@@ -81,7 +81,8 @@ void click_addTask(GtkButton *button, gpointer data){
     guint *month = (guint*)calloc(1, sizeof(guint));
     guint *day = (guint*)calloc(1, sizeof(guint));
     gtk_calendar_get_date(addTaskElements.date, year, month, day);
-    int todayYear = 0, todayMonth = 0, todayDay = 0;
+    int todayYear = 0;
+    short todayMonth = 0, todayDay = 0;
     get_time_today(&todayYear, &todayMonth, &todayDay);
     if(todayYear != 0 && todayDay != 0){
       if(*year < todayYear || *month < todayMonth || *day < todayDay){
@@ -135,7 +136,8 @@ void click_addTask(GtkButton *button, gpointer data){
 
 //Загрузка даты
 void load_date(void){
-  int iYear = 0, iMonth = 0, iDay = 0;
+  int iYear = 0;
+  short iMonth = 0, iDay = 0;
   get_time_today(&iYear, &iMonth, &iDay);
   if(iYear == 0 || iDay == 0){
     return ;
@@ -145,7 +147,7 @@ void load_date(void){
 }
 
 //Получение сегодняшней даты
-void get_time_today(int *iYear, int *iMonth, int *iDay){
+void get_time_today(int *iYear, short *iMonth, short *iDay){
   time_t calendarTime = time(0);
   if(calendarTime == -1){
     g_critical("Не могу получить время!");

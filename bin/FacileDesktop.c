@@ -95,10 +95,10 @@ void click_buttons(GtkButton *button, gpointer data){
     gtk_combo_box_text_remove(elements.textTime, indexTime);
 //
     GtkTreeModel *model = gtk_combo_box_get_model(GTK_COMBO_BOX(elements.textTask));
-    int count = gtk_tree_model_iter_n_children(model, 0);
+    short count = gtk_tree_model_iter_n_children(model, 0);
 //
     char *task[count * 3];
-    int i = 0, l = 0;
+    short i = 0, l = 0;
     while(i < count){
       gtk_combo_box_set_active(GTK_COMBO_BOX(elements.textTask), i);
       task[l] = gtk_combo_box_text_get_active_text(elements.textTask);
@@ -124,19 +124,19 @@ void click_buttons(GtkButton *button, gpointer data){
 
 //Выбор елементов. Синхрон
 void select_element_task(GtkComboBox *comboBox, gpointer data){
-  int index = gtk_combo_box_get_active(comboBox);
+  short index = gtk_combo_box_get_active(comboBox);
   gtk_combo_box_set_active(GTK_COMBO_BOX(elements.textDate), index);
   gtk_combo_box_set_active(GTK_COMBO_BOX(elements.textTime), index);
 }
 
 void select_element_date(GtkComboBox *comboBox, gpointer data){
-  int index = gtk_combo_box_get_active(comboBox);
+  short index = gtk_combo_box_get_active(comboBox);
   gtk_combo_box_set_active(GTK_COMBO_BOX(elements.textTask), index);
   gtk_combo_box_set_active(GTK_COMBO_BOX(elements.textTime), index);
 }
 
 void select_element_time(GtkComboBox *comboBox, gpointer data){
-  int index = gtk_combo_box_get_active(comboBox);
+  short index = gtk_combo_box_get_active(comboBox);
   gtk_combo_box_set_active(GTK_COMBO_BOX(elements.textTask), index);
   gtk_combo_box_set_active(GTK_COMBO_BOX(elements.textDate), index);
 }
@@ -158,7 +158,7 @@ void load_tasks(void){
   FILE *fp = fopen(outcome, "r");
   if(fp != NULL){
     long sizeFile = get_size_file(fp);
-    int lineCount = 0;
+    short lineCount = 0;
     while(!feof(fp)){
       if(fgetc(fp) == '\n'){
         lineCount++;
@@ -166,13 +166,13 @@ void load_tasks(void){
     }
     rewind(fp);
     char s[lineCount][sizeFile + 1];
-    int i = 0;
+    short i = 0;
     while(i < lineCount){
       fscanf(fp, "%s", s[i]);
       i++;
     }
     i = 0;
-    int maxLine = lineCount / 3, l = 0, k = 0;
+    short maxLine = lineCount / 3, l = 0, k = 0;
     while(i < maxLine){//Заполнение ComboBox`ов
       while(l < 3 * (i + 1)){
         switch(k){

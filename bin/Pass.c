@@ -47,9 +47,10 @@ void click_done(GtkButton *button, gpointer data){
   if(fp != NULL){
     gchar *password = (gchar*)calloc(4, sizeof(gchar));
     fscanf(fp, "%s", password);
-    int str = 0, i = 0, max = strlen(textPass);
+    int str = 0;
+    short i = 0, max = strlen(textPass);
     for(i; i < max; i++){
-      str += (unsigned)textPass[i];
+      str += textPass[i] << 3;
     }
     int intPassword = atoi(password);
     //!strcmp(textPass, password)

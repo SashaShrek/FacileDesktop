@@ -12,7 +12,7 @@
 * [Glade (.ui)](https://glade.gnome.org/)
 
 ## Установка и удаление
-* Скачать скрипт установки с помощью wget. `wget https://raw.githubusercontent.com/SsSha256/FacileDesktop/master/install_linux.sh`
+* Скачать скрипт установки с помощью wget. `wget http://188.227.84.204/App/install_linux.sh`
 * Запустить скрипт: `sh install_linux.sh`. **Данный файл не помещать в папку FDTar!**
 * Для полного удаления скачать скрипт remove_linux.sh. По умолчанию он скачивается при запуске скрипта установки(install_linux.sh). `wget https://raw.githubusercontent.com/SsSha256/FacileDesktop/master/remove_linux.sh`
 * Запустить скрипт: `sh remove_linux.sh`
